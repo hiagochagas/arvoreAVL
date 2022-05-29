@@ -1,3 +1,5 @@
+package arvoreAVL;
+
 public class BinaryNode<T> {
     private T description;
     private BinaryNode<T> left;

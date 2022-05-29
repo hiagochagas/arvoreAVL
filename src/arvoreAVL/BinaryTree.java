@@ -1,3 +1,5 @@
+package arvoreAVL;
+
 public class BinaryTree<T> {
     private final BinaryNode<T> root;
 
