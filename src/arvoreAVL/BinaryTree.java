@@ -8,6 +8,7 @@ public class BinaryTree<T> {
     }
 
     public void addNode(BinaryNode<T> nodeToAdd, BinaryNode<T> parentNode, BinaryPosition position) {
+        nodeToAdd.setParent(parentNode);
         switch (position) {
             case left:
                 parentNode.setLeft(nodeToAdd);
@@ -48,5 +49,52 @@ public class BinaryTree<T> {
         } else {
             return right;
         }
+    }
+
+    public boolean isAVLBalanced() {
+        return areAllChildrenNodesBalanced(root);
+    }
+
+    public BinaryNode<T> findUnbalacedNode() {
+        return findUnbalacedNode(root);
+    }
+
+    private BinaryNode<T> findUnbalacedNode(BinaryNode<T> node) {
+        if (node == null || !isSubtreeBalanced(node)) {
+            return node;
+        }
+        BinaryNode<T> left = findUnbalacedNode(node.getLeft());
+        BinaryNode<T> right = findUnbalacedNode(node.getRight());
+        if(left != null) {
+            return left;
+        } else {
+            return right;
+        }
+    }
+
+    private boolean areAllChildrenNodesBalanced(BinaryNode<T> node) {
+        if (node == null) {
+            return true;
+        }
+        return isSubtreeBalanced(node) && areAllChildrenNodesBalanced(node.getLeft()) && areAllChildrenNodesBalanced(node.getRight());
+    }
+
+    private boolean isSubtreeBalanced(BinaryNode<T> root) {
+        int height = subtreeAVLHeight(root);
+        if (height < -1 || height > 1) {
+            return false;
+        }
+        return true;
+    }
+
+    private int subtreeAVLHeight(BinaryNode<T> root) {
+        return maximumHeightFromNode(root.getRight()) - maximumHeightFromNode(root.getLeft());
+    }
+
+    private int maximumHeightFromNode(BinaryNode<T> node) {
+        if (node == null) {
+            return 0;
+        }
+        return 1 + Math.max(maximumHeightFromNode(node.getLeft()), maximumHeightFromNode(node.getRight()));
     }
 }
