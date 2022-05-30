@@ -1,7 +1,7 @@
 package arvoreAVL;
 
 public class BinaryTree<T> {
-    private final BinaryNode<T> root;
+    private BinaryNode<T> root;
 
     public BinaryTree(BinaryNode<T> root) {
         this.root = root;
@@ -17,6 +17,8 @@ public class BinaryTree<T> {
                 parentNode.setRight(nodeToAdd);
                 break;
         }
+        
+        balance();
     }
     
     public void addNode(BinaryNode<T> nodeToAdd) {
@@ -40,6 +42,8 @@ public class BinaryTree<T> {
             } else {
                 parentNode.setRight(null);
             }
+            
+            balance();
         }
     }
 
@@ -108,5 +112,51 @@ public class BinaryTree<T> {
             return 0;
         }
         return 1 + Math.max(maximumHeightFromNode(node.getLeft()), maximumHeightFromNode(node.getRight()));
+    }
+    
+    private void balance() {
+    	if(!isAVLBalanced()) {
+    		BinaryNode<T> unbalacedNode = findUnbalacedNode();
+    		int height = subtreeAVLHeight(unbalacedNode);
+    		
+    		if(height > 1) {
+    			int heightRight = subtreeAVLHeight(unbalacedNode.getRight());
+    			if(heightRight < 0) {
+    				// left double rotation
+    			} else {
+    				leftRotation(unbalacedNode);
+    			}
+    		} else {
+    			int heightLeft = subtreeAVLHeight(unbalacedNode.getLeft());
+    			if(heightLeft > 0) {
+    				// double rotation right
+    			} else {
+    				// rotation right
+    			}
+    		}
+    	} 
+    }
+    
+    private void leftRotation(BinaryNode<T> node) {
+    	BinaryNode<T> newRoot = node.getRight();
+    	if(node.getParent() != null) {
+            if (node.getParent().getLeft() == node) {
+            	node.getParent().setLeft(newRoot);
+            } else {
+            	node.getParent().setRight(newRoot);
+            }
+            
+            newRoot.setParent(node.getParent());
+            node.setParent(newRoot);
+    	} else {
+    		newRoot.setParent(null);
+    		this.root = newRoot;
+    	}
+    	
+    	if(newRoot.getLeft() != null) {
+    		newRoot.getLeft().setParent(node);
+    	}
+    	node.setRight(newRoot.getLeft());
+    	newRoot.setLeft(node);
     }
 }

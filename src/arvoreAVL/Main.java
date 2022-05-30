@@ -29,6 +29,6 @@ public class Main {
         tree.addNode(node7);
 
         BinaryNode<Integer> foundNode = tree.searchNode(7);
-        System.out.println(foundNode.getDescription());
+        System.out.println(foundNode.getParent().getDescription());
     }
 }
