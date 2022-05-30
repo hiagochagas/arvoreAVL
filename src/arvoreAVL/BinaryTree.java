@@ -18,6 +18,18 @@ public class BinaryTree<T> {
                 break;
         }
     }
+    
+    public void addNode(BinaryNode<T> nodeToAdd) {
+    	addNode(nodeToAdd,root);
+    }
+    
+    private void addNode(BinaryNode<T> nodeToAdd, BinaryNode<T> parentNode) {
+    	if(parentNode.getRight() == null) {
+    		addNode(nodeToAdd,parentNode, BinaryPosition.right);
+    	} else {    		
+    		addNode(nodeToAdd,parentNode.getRight());
+    	}
+    }
 
     public void removeNode(T nodeDescription) {
         BinaryNode<T> node = searchNode(nodeDescription, root);
