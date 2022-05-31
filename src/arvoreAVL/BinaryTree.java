@@ -17,8 +17,6 @@ public class BinaryTree<T> {
                 parentNode.setRight(nodeToAdd);
                 break;
         }
-        
-        balance();
     }
     
     public void addNode(BinaryNode<T> nodeToAdd) {
@@ -42,8 +40,6 @@ public class BinaryTree<T> {
             } else {
                 parentNode.setRight(null);
             }
-            
-            balance();
         }
     }
 
@@ -113,28 +109,32 @@ public class BinaryTree<T> {
         }
         return 1 + Math.max(maximumHeightFromNode(node.getLeft()), maximumHeightFromNode(node.getRight()));
     }
-    
+
+    public void avlBalance() {
+        while (!isAVLBalanced()) {
+            balance();
+        }
+    }
+
     private void balance() {
-    	if(!isAVLBalanced()) {
-    		BinaryNode<T> unbalacedNode = findUnbalacedNode();
-    		int height = subtreeAVLHeight(unbalacedNode);
-    		
-    		if(height > 1) {
-    			int heightRight = subtreeAVLHeight(unbalacedNode.getRight());
-    			if(heightRight < 0) {
-    				doubleLeftRotation(unbalacedNode);
-    			} else {
-    				leftRotation(unbalacedNode);
-    			}
-    		} else {
-    			int heightLeft = subtreeAVLHeight(unbalacedNode.getLeft());
-    			if(heightLeft > 0) {
-    				doubleRightRotation(unbalacedNode);
-    			} else {
-    				rightRotation(unbalacedNode);
-    			}
-    		}
-    	} 
+        BinaryNode<T> unbalacedNode = findUnbalacedNode();
+        int height = subtreeAVLHeight(unbalacedNode);
+
+        if(height > 1) {
+            int heightRight = subtreeAVLHeight(unbalacedNode.getRight());
+            if(heightRight < 0) {
+                doubleLeftRotation(unbalacedNode);
+            } else {
+                leftRotation(unbalacedNode);
+            }
+        } else {
+            int heightLeft = subtreeAVLHeight(unbalacedNode.getLeft());
+            if(heightLeft > 0) {
+                doubleRightRotation(unbalacedNode);
+            } else {
+                rightRotation(unbalacedNode);
+            }
+        }
     }
 
     private void doubleLeftRotation(BinaryNode<T> node) {
