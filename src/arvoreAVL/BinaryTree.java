@@ -139,20 +139,19 @@ public class BinaryTree<T> {
     
     private void leftRotation(BinaryNode<T> node) {
     	BinaryNode<T> newRoot = node.getRight();
+        newRoot.setParent(node.getParent());
+
     	if(node.getParent() != null) {
             if (node.getParent().getLeft() == node) {
             	node.getParent().setLeft(newRoot);
             } else {
             	node.getParent().setRight(newRoot);
             }
-            
-            newRoot.setParent(node.getParent());
-            node.setParent(newRoot);
     	} else {
-    		newRoot.setParent(null);
     		this.root = newRoot;
     	}
-    	
+        node.setParent(newRoot);
+
     	if(newRoot.getLeft() != null) {
     		newRoot.getLeft().setParent(node);
     	}
