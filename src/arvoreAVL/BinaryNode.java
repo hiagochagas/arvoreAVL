@@ -1,6 +1,6 @@
 package arvoreAVL;
 
-public class BinaryNode<T> {
+public class BinaryNode<T> implements PrintableNode {
     private T description;
     private BinaryNode<T> left;
     private BinaryNode<T> right;
@@ -38,6 +38,11 @@ public class BinaryNode<T> {
 
     public BinaryNode<T> getRight() {
         return right;
+    }
+
+    @Override
+    public String getText() {
+        return String.valueOf(description);
     }
 
     public void setRight(BinaryNode<T> right) {
