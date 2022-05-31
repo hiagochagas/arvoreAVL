@@ -131,7 +131,7 @@ public class BinaryTree<T> {
     			if(heightLeft > 0) {
     				// double rotation right
     			} else {
-    				// rotation right
+    				rightRotation(unbalacedNode);
     			}
     		}
     	} 
@@ -139,10 +139,30 @@ public class BinaryTree<T> {
     
     private void leftRotation(BinaryNode<T> node) {
     	BinaryNode<T> newRoot = node.getRight();
-        newRoot.setParent(node.getParent());
+        this.rearrangeNodes(node, newRoot);
 
+    	if(newRoot.getLeft() != null) {
+    		newRoot.getLeft().setParent(node);
+    	}
+    	node.setRight(newRoot.getLeft());
+    	newRoot.setLeft(node);
+    }
+    
+    private void rightRotation(BinaryNode<T> node) {
+    	BinaryNode<T> newRoot = node.getLeft();
+    	this.rearrangeNodes(node, newRoot);
+    	
+    	if (newRoot.getRight() != null) {
+    		newRoot.getRight().setParent(node);
+    	}
+    	node.setLeft(newRoot.getRight());
+    	newRoot.setRight(node);
+    }
+    
+    private void rearrangeNodes(BinaryNode<T> node, BinaryNode<T> newRoot) {
+    	newRoot.setParent(node.getParent());
     	if(node.getParent() != null) {
-            if (node.getParent().getLeft() == node) {
+    		if (node.getParent().getLeft() == node) {
             	node.getParent().setLeft(newRoot);
             } else {
             	node.getParent().setRight(newRoot);
@@ -150,12 +170,6 @@ public class BinaryTree<T> {
     	} else {
     		this.root = newRoot;
     	}
-        node.setParent(newRoot);
-
-    	if(newRoot.getLeft() != null) {
-    		newRoot.getLeft().setParent(node);
-    	}
-    	node.setRight(newRoot.getLeft());
-    	newRoot.setLeft(node);
+    	node.setParent(newRoot);
     }
 }
