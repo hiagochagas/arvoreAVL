@@ -122,19 +122,29 @@ public class BinaryTree<T> {
     		if(height > 1) {
     			int heightRight = subtreeAVLHeight(unbalacedNode.getRight());
     			if(heightRight < 0) {
-    				// left double rotation
+    				doubleLeftRotation(unbalacedNode);
     			} else {
     				leftRotation(unbalacedNode);
     			}
     		} else {
     			int heightLeft = subtreeAVLHeight(unbalacedNode.getLeft());
     			if(heightLeft > 0) {
-    				// double rotation right
+    				doubleRightRotation(unbalacedNode);
     			} else {
     				rightRotation(unbalacedNode);
     			}
     		}
     	} 
+    }
+
+    private void doubleLeftRotation(BinaryNode<T> node) {
+        rightRotation(node.getRight());
+        leftRotation(node);
+    }
+
+    private void doubleRightRotation(BinaryNode<T> node) {
+        leftRotation(node.getLeft());
+        rightRotation(node);
     }
     
     private void leftRotation(BinaryNode<T> node) {
